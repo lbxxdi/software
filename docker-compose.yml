@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+  cuauv:
+    image: lezed1/cuauv
+    ports:
+      - "127.0.0.1:2222:22"
+      - "127.0.0.1:5000:5000"
+    volumes:
+      - type: bind
+        source: .
+        target: /home/software/cuauv/software
+      - type: bind
+        source: /tmp/.X11-unix
+        target: /tmp/.X11-unix
+      - type: bind
+        source: ${VISION_TEST_PATH}
+        target: /home/software/cuauv/videos
+      - type: bind
+        source: ${CUAUV_LOG}
+        target: /var/log/auv
+
+    environment:
+      - DISPLAY=${DISPLAY}
+    devices:
+      - "/dev/dri:/dev/dri"
+    ipc: host
